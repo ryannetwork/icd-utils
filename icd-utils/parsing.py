@@ -16,13 +16,23 @@ class parsing(object):
             (single node falls under multiple parents)
      '''
     
-    def __init__(self,raw_node):
+    def __init__(self,raw_node,id2code):
         self.raw_node = raw_node
+        self.id2code = id2code
         self.node_dict = {}
+        
         
     '''get foundation id'''
     def get_id(self):
-        self.node_dict['id'] = self.raw_node["@id"].split("/")[-1]
+        self.id = self.raw_node["@id"].split("/")[-1]
+        self.node_dict['id'] = self.id
+        
+        
+    '''get code'''
+    def get_code(self):
+        self.get_id()
+        self.node_dict['code'] = self.id2code[self.id]
+        
         
     '''get title of the node'''
     def get_title(self):
@@ -75,6 +85,7 @@ class parsing(object):
     '''get node dictionary'''
     def get_node_doc(self):
         self.get_id()
+        self.get_code()
         self.get_title()
         self.get_defn()
         self.get_syns()
